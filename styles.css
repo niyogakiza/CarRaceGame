@@ -3,7 +3,7 @@
     height: 600px;
     width:800px;
     left:5%;
-    background-color:green;
+    background-color: azure;
     overflow: hidden;
 }
 .dashboard{
@@ -19,7 +19,7 @@
     left:300px;
     width:200px;
     border: 1px solid black;
-    background-color: red;
+    background-color: black;
     color:white;
     font-size: 2em;
     z-index: 200;
