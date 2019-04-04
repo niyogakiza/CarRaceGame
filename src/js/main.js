@@ -5,11 +5,11 @@ const btnStart = document.querySelector(".btnStart");
 const container = document.getElementById('container');
 
 btnStart.addEventListener('click', startGame);
-btnStart.addEventListener('keydown', pressKeyOn);
-btnStart.addEventListener('keyup', pressKeyOff);
+document.addEventListener('keydown', pressKeyOn);
+document.addEventListener('keyup', pressKeyOff);
 
+let animationGame;
 let gamePlay = false;
-let animationGame = requestAnimationFrame(playGame);
 let player;
 
 /* Keys */
@@ -28,8 +28,10 @@ function startGame(){
   div.y = 500;
   container.appendChild(div);
   gamePlay = true;
-  player ={
-    speed: 1,
+  animationGame = requestAnimationFrame(playGame);
+  player = {
+    ele: div,
+    speed: 9,
     lives: 3,
     gameScore: 0,
     carsToPass: 10,
@@ -40,33 +42,57 @@ function startGame(){
 }
 
 function startBoard(){
-  [1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].forEach(item => {
+  [1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15].forEach(item => {
     let div = document.createElement('div');
     div.setAttribute('class', 'road');
-    div.style.top = (item*50)+'px';
+    div.style.top = (item * 50)+'px';
     div.style.width = player.roadWidth + 'px';
     container.appendChild(div)
   })
 }
 
-function pressKeyOn(){
-
+function pressKeyOn(event){
+  event.preventDefault();
+  console.log(keys);
+  keys[event.key] = true
 }
 
-function pressKeyOff() {
-
+function pressKeyOff(event) {
+  event.preventDefault();
+  keys[event.key] = false
 }
 
 function updateDash(){
   scoreDash.innerHTML = player.score;
   lifeDash.innerHTML = player.lives;
   speedDash.innerHTML = player.speed;
-  console.log(player)
 }
 
 function playGame(){
   if(gamePlay){
-    updateDash()
+    updateDash();
+
+    if(keys.ArrowUp) {
+      player.ele.y -= 1;
+      player.speed = player.speed < 20 ? (player.speed +0.05) :20;
+    }
+
+  if(keys.ArrowDown) {
+    player.ele.y += 1;
+    player.speed = player.speed > 0  ? (player.speed -0.2) :0;
   }
+
+  if(keys.ArrowRight) {
+    player.ele.x += (player.speed/4)
+  }
+
+  if(keys.ArrowLeft) {
+    player.ele.x -= (player.speed/4)
+  }
+  // Move Car
+  player.ele.style.top = player.ele.y +'px';
+  player.ele.style.left = player.ele.x +'px';
+  }
+
   animationGame = requestAnimationFrame(playGame);
 }
