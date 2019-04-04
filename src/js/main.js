@@ -33,8 +33,20 @@ function startGame(){
     lives: 3,
     gameScore: 0,
     carsToPass: 10,
-    score: 0
+    score: 0,
+    roadWidth: 250
   };
+  startBoard();
+}
+
+function startBoard(){
+  [1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].forEach(item => {
+    let div = document.createElement('div');
+    div.setAttribute('class', 'road');
+    div.style.top = (item*50)+'px';
+    div.style.width = player.roadWidth + 'px';
+    container.appendChild(div)
+  })
 }
 
 function pressKeyOn(){
